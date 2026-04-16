@@ -42,7 +42,6 @@ static void server_entry() {
   req[n] = 0;
   TEST_ASSERT(std::strstr(req, "GET /hello HTTP/1.1") != 0, "http request line mismatch");
 
-  const char* body = "hello";
   const char* resp =
     "HTTP/1.1 200 OK\r\n"
     "Content-Length: 5\r\n"
@@ -51,8 +50,6 @@ static void server_entry() {
     "hello";
   TEST_ASSERT(send(server_fd, resp, (int)std::strlen(resp), 0) == (int)std::strlen(resp), "http send response failed");
   co_switch(host_thread);
-
-  (void)body;
   for(;;) co_switch(host_thread);
 }
 
